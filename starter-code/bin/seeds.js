@@ -1,7 +1,8 @@
 // bin/seeds.js
 
 const mongoose = require('mongoose');
-const Celebrity = require('../models/celebrityModel.js')
+const Celebrity = require('../models/Celebrity')
+const Movie = require('../models/Movie')
 
 const DB_NAME = 'lab-mongoose-movies';
 
@@ -11,29 +12,36 @@ mongoose.connect(`mongodb://localhost/${DB_NAME}`, {
   useUnifiedTopology: true,
 });
 
-const celebrities = [
+const movies = [
   {
-    name: 'Juliette Binoche',
-    occupation: 'actress',
-    catchPhrase: 'You stupid boy'
-  },
-
-  {
+  title: 'Star Wars',
+  genre: 'Sci-Fi',
+  plot: 'About xiaolaoshu',
+  cast: {
     name: 'Natalie Portman',
-    occupation: 'actress',
-    catchPhrase: "I'm Free"
+    occupation: 'Actress',
+    catchPhrase: 'You stupid boy'
+  }
   },
 
   {
-    name: 'Jennifer Aniston',
-    occupation: 'actress',
-    catchPhrase: 'If you’re not happy, you can become happy.'
-  },
-];
+    title: 'My Brilliant Girlfriend',
+    genre: 'Drama',
+    plot: 'About two gils in Napels',
+    cast: {
+      name: 'Elena Ferrante',
+      occupation: 'Actress',
+      catchPhrase: 'Lila'
+    }
+  }
+]
 
-Celebrity.create(celebrities)
-  .then(celebritiesFromDB => {
-    console.log(`Created ${celebritiesFromDB.length} celebrities`);
-    mongoose.connection.close();
+
+movies.forEach(movie => {
+  Celebrity.create(movie.cast)
+  .then(celebrity => {
+    movie.cast = celebrity._id;
+    Movie.create(movie);
   })
-  .catch(err => console.log(`An error happend when created celebrities in the DB: `, err))
+})
+

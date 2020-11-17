@@ -1,0 +1,19 @@
+{{#with movieDetails}}
+
+<h1>{{title}}</h1>
+<p>Genre: {{genre}}</p>
+<p>Plot: {{plot}}</p>
+
+{{/with}}
+
+<h3>Casting by: </h3>
+
+{{#with movieDetails.cast}}
+
+  <p>Name: {{name}}</p>
+  <p>Occupation: {{occupation}}</p>
+  <p>Catch Phrase: "{{catchPhrase}}"</p>
+
+{{/with}}
+
+<button><a href="/movies/edit/{{movieDetails._id}}"> Edit</a></button>
