@@ -10,7 +10,7 @@ router.get('/celebrities', (req, res, next) => {
   Celebrity.find({})
     .then(celebritiesFromDB => {
       console.log('retrived celebrities from db: ', {celebrities: celebritiesFromDB})
-      res.render('../celebrities/index', {celebrities: celebritiesFromDB})
+      res.render('celebrities/index', {celebrities: celebritiesFromDB})
     })
     .catch(error => {
       next();
@@ -20,14 +20,14 @@ router.get('/celebrities', (req, res, next) => {
 
 // add new celebrity GET
 router.get('/celebrities/new', (req, res) => {
-  res.render('../celebrities/new')
+  res.render('celebrities/new')
 })
 
 // when clicked the name, goes to celebrity details
 router.get('/celebrities/:id', (req, res, next) => {
   const celebrityId = req.params.id
   Celebrity.findById(celebrityId)
-    .then(theCelebrity => res.render('../celebrities/show', {theCelebrity: theCelebrity}))
+    .then(theCelebrity => res.render('celebrities/show', {theCelebrity: theCelebrity}))
     .catch(error => {
       next();
       console.log('error from findById: ', error)
@@ -44,7 +44,7 @@ router.post('/celebrities/new', (req, res) => {
   })
   .then(celebrity => {
     console.log(`${celebrity.name} was added to the database`);
-    res.redirect(`../celebrities/${celebrity._id}`) //??????
+    res.redirect(`/celebrities/${celebrity._id}`) //??????
   })
   .catch(error => {
     console.log('error from adding new celebrity: ', error)
@@ -56,7 +56,7 @@ router.get('/celebrities/:id/edit', (req, res) => {
   const celebrityId = req.params.id;
   Celebrity.findById(celebrityId)
     .then(celebrity => {
-      res.render('../celebrities/edit', {celebrity})
+      res.render('celebrities/edit', {celebrity})
     })
     .catch(error => console.log(error))
 })
